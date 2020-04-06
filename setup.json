@@ -1,0 +1,52 @@
+{
+  "name": "aiida-nims-scheduler",
+  "version": "0.1.0",
+  "url": "https://github.com/pzarabadip/aiida-nims-schedulers",
+  "license": "MIT License",
+  "author": "Pezhman Zarabadi-Poor",
+  "author_email": "pzarabadip@gmail.com",
+  "include_package_data": true,
+  "python_requires": ">=3.5",
+  "classifiers": [
+    "Framework :: AiiDA",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Topic :: Scientific/Engineering"
+  ],
+  "install_requires": [
+    "aiida_core >= 1.0.0, <2.0.0"  
+  ],
+  "extras_require": {
+    "ssh_kerberos": [
+      "gssapi~=1.6",
+      "pyasn1~=0.4.8"
+    ],  
+    "docs": [
+      "docutils==0.15.2",
+      "pygments~=2.5",
+      "sphinx-rtd-theme~=0.4.3",
+      "sphinx~=2.2",
+      "sphinxcontrib-contentui~=0.2.4",
+      "sphinxcontrib-details-directive~=0.1.0"
+    ],
+    "dev_precommit": [
+      "astroid==2.3.3",
+      "pre-commit==1.18.3",
+      "prospector==1.2.0",
+      "pylint==2.4.4",
+      "toml~=0.10.0",
+      "yapf==0.28.0"
+    ] 
+  },
+  "reentry_register": true,
+  "entry_points": {
+    "aiida.schedulers": [
+      "pbsprometavo = aiida_nims_schedulers.pbspro_metavo:PbsproSchedulerMetaVO"
+    ]
+  }
+}
