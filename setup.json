@@ -1,5 +1,5 @@
 {
-  "name": "aiida-nims-scheduler",
+  "name": "aiida-scheduler-bundle",
   "version": "0.1.0",
   "url": "https://github.com/pzarabadip/aiida-nims-schedulers",
   "license": "MIT License",
@@ -46,7 +46,7 @@
   "reentry_register": true,
   "entry_points": {
     "aiida.schedulers": [
-      "pbsprometavo = aiida_nims_schedulers.pbspro_metavo:PbsproSchedulerMetaVO"
+      "pbsprometavo = aiida_scheduler_bundle.metavo.pbspro_metavo:PbsproSchedulerMetaVO"
     ]
   }
 }

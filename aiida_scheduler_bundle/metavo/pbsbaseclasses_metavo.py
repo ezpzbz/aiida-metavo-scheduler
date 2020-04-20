@@ -10,9 +10,9 @@
 """
 Base classes for PBSPro and PBS/Torque plugins.
 """
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
+# from __future__ import print_function
+# from __future__ import division
+# from __future__ import absolute_import
 import abc
 import logging
 
@@ -159,10 +159,12 @@ class PbsBaseClassMetaVO(Scheduler):
         """
         from aiida.common.exceptions import FeatureNotAvailable
 
-        command = ['qstat', '-f', '-w', '@arien-pro.ics.muni.cz @wagap-pro.cerit-sc.cz @pbs.elixir-czech.cz ']
+        # command = ['qstat', '-f', '-w', '@arien-pro.ics.muni.cz @wagap-pro.cerit-sc.cz @pbs.elixir-czech.cz ']
+        command = ['qstat', '-f', '-w', '@meta-pbs.metacentrum.cz @cerit-pbs.cerit-sc.cz @elixir-pbs.elixir-czech.cz ']
 
         if jobs and user:
             raise FeatureNotAvailable('Cannot query by user and job(s) in PBS')
+        
         user = 'pezhman'
         if user:
             command.append('-u{}'.format(user))
