@@ -24,7 +24,6 @@ from aiida.schedulers.datastructures import (JobInfo, JobState, MachineInfo, Nod
 
 _LOGGER = logging.getLogger(__name__)
 
-
 # This maps PbsPro status letters to our own status list
 
 ## List of states from the man page of qstat
@@ -93,10 +92,12 @@ class PbsJobResource(NodeNumberJobResource):
         """
         super(PbsJobResource, self).__init__(**kwargs)
 
-        value_error = ('num_cores_per_machine must be equal to '
-                       'num_cores_per_mpiproc * num_mpiprocs_per_machine, '
-                       'and in perticular it should be a multiple of '
-                       'num_cores_per_mpiproc and/or num_mpiprocs_per_machine')
+        value_error = (
+            'num_cores_per_machine must be equal to '
+            'num_cores_per_mpiproc * num_mpiprocs_per_machine, '
+            'and in perticular it should be a multiple of '
+            'num_cores_per_mpiproc and/or num_mpiprocs_per_machine'
+        )
 
         if self.num_cores_per_machine is not None and self.num_cores_per_mpiproc is not None:
             if self.num_cores_per_machine != (self.num_cores_per_mpiproc * self.num_mpiprocs_per_machine):
@@ -133,8 +134,9 @@ class PbsBaseClassMetaVO(Scheduler):
 
     _map_status = _MAP_STATUS_PBS_COMMON
 
-    def _get_resource_lines(self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb,
-                            max_wallclock_seconds):
+    def _get_resource_lines(
+        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds
+    ):
         """
         Return a set a list of lines (possibly empty) with the header
         lines relative to:
@@ -164,7 +166,7 @@ class PbsBaseClassMetaVO(Scheduler):
 
         if jobs and user:
             raise FeatureNotAvailable('Cannot query by user and job(s) in PBS')
-        
+
         user = 'pezhman'
         if user:
             command.append('-u{}'.format(user))
@@ -228,9 +230,11 @@ class PbsBaseClassMetaVO(Scheduler):
         if email_events:
             lines.append('#PBS -m {}'.format(email_events))
             if not job_tmpl.email:
-                _LOGGER.info('Email triggers provided to PBSPro script for job,'
-                             'but no email field set; will send emails to '
-                             'the job owner as set in the scheduler')
+                _LOGGER.info(
+                    'Email triggers provided to PBSPro script for job,'
+                    'but no email field set; will send emails to '
+                    'the job owner as set in the scheduler'
+                )
         else:
             lines.append('#PBS -m n')
 
@@ -273,8 +277,10 @@ class PbsBaseClassMetaVO(Scheduler):
             # 'n' : Standard error and standard output are not merged (default)
             lines.append('#PBS -j oe')
             if job_tmpl.sched_error_path:
-                _LOGGER.info('sched_join_files is True, but sched_error_path is set in '
-                             'PBSPro script; ignoring sched_error_path')
+                _LOGGER.info(
+                    'sched_join_files is True, but sched_error_path is set in '
+                    'PBSPro script; ignoring sched_error_path'
+                )
         else:
             if job_tmpl.sched_error_path:
                 lines.append('#PBS -e {}'.format(job_tmpl.sched_error_path))
@@ -301,7 +307,8 @@ class PbsBaseClassMetaVO(Scheduler):
             num_mpiprocs_per_machine=job_tmpl.job_resource.num_mpiprocs_per_machine,
             num_cores_per_machine=job_tmpl.job_resource.num_cores_per_machine,
             max_memory_kb=job_tmpl.max_memory_kb,
-            max_wallclock_seconds=job_tmpl.max_wallclock_seconds)
+            max_wallclock_seconds=job_tmpl.max_wallclock_seconds
+        )
 
         lines += resource_lines
 
@@ -377,13 +384,18 @@ class PbsBaseClassMetaVO(Scheduler):
         # those schedulers configured to leave the job in the output
         # of qstat for some time after job completion.
         filtered_stderr = '\n'.join(
-            l for l in stderr.split('\n') if 'Unknown Job Id' not in l and 'Job has finished' not in l)
+            l for l in stderr.split('\n') if 'Unknown Job Id' not in l and 'Job has finished' not in l
+        )
         if filtered_stderr.strip():
-            _LOGGER.warning('Warning in _parse_joblist_output, non-empty '
-                            "(filtered) stderr='{}'".format(filtered_stderr))
+            _LOGGER.warning(
+                'Warning in _parse_joblist_output, non-empty '
+                "(filtered) stderr='{}'".format(filtered_stderr)
+            )
             if retval != 0:
-                raise SchedulerError('Error during qstat parsing, retval={}\n'
-                                    'stdout={}\nstderr={}'.format(retval, stdout, stderr))
+                raise SchedulerError(
+                    'Error during qstat parsing, retval={}\n'
+                    'stdout={}\nstderr={}'.format(retval, stdout, stderr)
+                )
 
         jobdata_raw = []  # will contain raw data parsed from qstat output
         # Get raw data and split in lines
@@ -415,8 +427,10 @@ class PbsBaseClassMetaVO(Scheduler):
                             # I append to the previous string
                             # stripping the TAB
                             if not jobdata_raw[-1]['lines']:
-                                raise SchedulerParsingError('Line {} is the first line of the job, but it '
-                                                            'starts with a TAB! ({})'.format(line_num, line))
+                                raise SchedulerParsingError(
+                                    'Line {} is the first line of the job, but it '
+                                    'starts with a TAB! ({})'.format(line_num, line)
+                                )
                             jobdata_raw[-1]['lines'][-1] += line[1:]
                         else:
                             # raise SchedulerParsingError(
@@ -444,9 +458,7 @@ class PbsBaseClassMetaVO(Scheduler):
                 raise SchedulerParsingError('There are lines without equals sign.')
 
             raw_data = {
-                i.split('=', 1)[0].strip().lower(): i.split('=', 1)[1].lstrip()
-                for i in job['lines']
-                if '=' in i
+                i.split('=', 1)[0].strip().lower(): i.split('=', 1)[1].lstrip() for i in job['lines'] if '=' in i
             }
 
             ## I ignore the errors for the time being - this seems to be
@@ -491,8 +503,10 @@ class PbsBaseClassMetaVO(Scheduler):
                 try:
                     this_job.job_state = self._map_status[job_state_string]
                 except KeyError:
-                    _LOGGER.warning("Unrecognized job_state '{}' for job "
-                                    'id {}'.format(job_state_string, this_job.job_id))
+                    _LOGGER.warning(
+                        "Unrecognized job_state '{}' for job "
+                        'id {}'.format(job_state_string, this_job.job_id)
+                    )
                     this_job.job_state = JobState.UNDETERMINED
             except KeyError:
                 _LOGGER.debug("No 'job_state' field for job id {}".format(this_job.job_id))
@@ -530,15 +544,19 @@ class PbsBaseClassMetaVO(Scheduler):
                             node.jobIndex = int(data[0])
                             node.num_cpus = int(data[1])
                         else:
-                            raise ValueError('Wrong number of pieces: {} '
-                                             'instead of 1 or 2 in exec_hosts: '
-                                             '{}'.format(len(data), exec_hosts))
+                            raise ValueError(
+                                'Wrong number of pieces: {} '
+                                'instead of 1 or 2 in exec_hosts: '
+                                '{}'.format(len(data), exec_hosts)
+                            )
                         exec_host_list.append(node)
                     this_job.allocated_machines = exec_host_list
                 except Exception as exc:
-                    _LOGGER.debug('Problem parsing the node names, I '
-                                  'got Exception {} with message {}; '
-                                  'exec_hosts was {}'.format(str(type(exc)), exc, exec_hosts))
+                    _LOGGER.debug(
+                        'Problem parsing the node names, I '
+                        'got Exception {} with message {}; '
+                        'exec_hosts was {}'.format(str(type(exc)), exc, exec_hosts)
+                    )
 
             try:
                 # I strip the part after the @: is this always ok?
@@ -553,8 +571,10 @@ class PbsBaseClassMetaVO(Scheduler):
             except KeyError:
                 _LOGGER.debug("No 'resource_list.ncpus' field for job id {}".format(this_job.job_id))
             except ValueError:
-                _LOGGER.warning("'resource_list.ncpus' is not an integer "
-                                '({}) for job id {}!'.format(raw_data['resource_list.ncpus'], this_job.job_id))
+                _LOGGER.warning(
+                    "'resource_list.ncpus' is not an integer "
+                    '({}) for job id {}!'.format(raw_data['resource_list.ncpus'], this_job.job_id)
+                )
 
             try:
                 this_job.num_mpiprocs = int(raw_data['resource_list.mpiprocs'])
@@ -563,24 +583,31 @@ class PbsBaseClassMetaVO(Scheduler):
             except KeyError:
                 _LOGGER.debug("No 'resource_list.mpiprocs' field for job id {}".format(this_job.job_id))
             except ValueError:
-                _LOGGER.warning("'resource_list.mpiprocs' is not an integer "
-                                '({}) for job id {}!'.format(raw_data['resource_list.mpiprocs'], this_job.job_id))
+                _LOGGER.warning(
+                    "'resource_list.mpiprocs' is not an integer "
+                    '({}) for job id {}!'.format(raw_data['resource_list.mpiprocs'], this_job.job_id)
+                )
 
             try:
                 this_job.num_machines = int(raw_data['resource_list.nodect'])
             except KeyError:
                 _LOGGER.debug("No 'resource_list.nodect' field for job id {}".format(this_job.job_id))
             except ValueError:
-                _LOGGER.warning("'resource_list.nodect' is not an integer "
-                                '({}) for job id {}!'.format(raw_data['resource_list.nodect'], this_job.job_id))
+                _LOGGER.warning(
+                    "'resource_list.nodect' is not an integer "
+                    '({}) for job id {}!'.format(raw_data['resource_list.nodect'], this_job.job_id)
+                )
 
             # Double check of redundant info
             if (this_job.allocated_machines is not None and this_job.num_machines is not None):
                 if len(set(machine.name for machine in this_job.allocated_machines)) != this_job.num_machines:
-                    _LOGGER.error('The length of the list of allocated '
-                                  'nodes ({}) is different from the '
-                                  'expected number of nodes ({})!'.format(
-                                      len(this_job.allocated_machines), this_job.num_machines))
+                    _LOGGER.error(
+                        'The length of the list of allocated '
+                        'nodes ({}) is different from the '
+                        'expected number of nodes ({})!'.format(
+                            len(this_job.allocated_machines), this_job.num_machines
+                        )
+                    )
 
             try:
                 this_job.queue_name = raw_data['queue']
@@ -711,10 +738,14 @@ class PbsBaseClassMetaVO(Scheduler):
         Return a string with the JobID.
         """
         if retval != 0:
-            _LOGGER.error('Error in _parse_submit_output: retval={}; '
-                          'stdout={}; stderr={}'.format(retval, stdout, stderr))
-            raise SchedulerError('Error during submission, retval={}\n'
-                                 'stdout={}\nstderr={}'.format(retval, stdout, stderr))
+            _LOGGER.error(
+                'Error in _parse_submit_output: retval={}; '
+                'stdout={}; stderr={}'.format(retval, stdout, stderr)
+            )
+            raise SchedulerError(
+                'Error during submission, retval={}\n'
+                'stdout={}\nstderr={}'.format(retval, stdout, stderr)
+            )
 
         if stderr.strip():
             _LOGGER.warning('in _parse_submit_output there was some text in stderr: {}'.format(stderr))
@@ -740,8 +771,10 @@ class PbsBaseClassMetaVO(Scheduler):
         :return: True if everything seems ok, False otherwise.
         """
         if retval != 0:
-            _LOGGER.error('Error in _parse_kill_output: retval={}; '
-                          'stdout={}; stderr={}'.format(retval, stdout, stderr))
+            _LOGGER.error(
+                'Error in _parse_kill_output: retval={}; '
+                'stdout={}; stderr={}'.format(retval, stdout, stderr)
+            )
             return False
 
         if stderr.strip():

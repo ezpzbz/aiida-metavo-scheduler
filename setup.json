@@ -19,29 +19,19 @@
     "Topic :: Scientific/Engineering"
   ],
   "install_requires": [
-    "aiida_core >= 1.0.0, <2.0.0"  
+    "aiida_core >= 1.0.0, <2.0.0"
   ],
   "extras_require": {
     "ssh_kerberos": [
       "gssapi~=1.6",
       "pyasn1~=0.4.8"
-    ],  
-    "docs": [
-      "docutils==0.15.2",
-      "pygments~=2.5",
-      "sphinx-rtd-theme~=0.4.3",
-      "sphinx~=2.2",
-      "sphinxcontrib-contentui~=0.2.4",
-      "sphinxcontrib-details-directive~=0.1.0"
     ],
-    "dev_precommit": [
-      "astroid==2.3.3",
+    "precommit": [
       "pre-commit==1.18.3",
       "prospector==1.2.0",
       "pylint==2.4.4",
-      "toml~=0.10.0",
       "yapf==0.28.0"
-    ] 
+    ]
   },
   "reentry_register": true,
   "entry_points": {
