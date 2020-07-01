@@ -163,6 +163,7 @@ class PbsBaseClassMetaVO(Scheduler):
 
         # command = ['qstat', '-f', '-w', '@arien-pro.ics.muni.cz @wagap-pro.cerit-sc.cz @pbs.elixir-czech.cz ']
         command = ['qstat', '-f', '-w', '@meta-pbs.metacentrum.cz @cerit-pbs.cerit-sc.cz @elixir-pbs.elixir-czech.cz ']
+        # command = ['qstat', '-f', '-w']
 
         if jobs and user:
             raise FeatureNotAvailable('Cannot query by user and job(s) in PBS')
