@@ -135,7 +135,7 @@ class PbsBaseClassMetaVO(Scheduler):
     _map_status = _MAP_STATUS_PBS_COMMON
 
     def _get_resource_lines(
-        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds
+        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds, scratch_local_kb, scratch_ssd_kb
     ):
         """
         Return a set a list of lines (possibly empty) with the header
@@ -308,7 +308,9 @@ class PbsBaseClassMetaVO(Scheduler):
             num_mpiprocs_per_machine=job_tmpl.job_resource.num_mpiprocs_per_machine,
             num_cores_per_machine=job_tmpl.job_resource.num_cores_per_machine,
             max_memory_kb=job_tmpl.max_memory_kb,
-            max_wallclock_seconds=job_tmpl.max_wallclock_seconds
+            max_wallclock_seconds=job_tmpl.max_wallclock_seconds,
+            scratch_local_kb=job_tmpl.job_resource.scratch_local_kb, 
+            scratch_ssd_kb=job_tmpl.job_resource.scratch_ssd_kb
         )
 
         lines += resource_lines
