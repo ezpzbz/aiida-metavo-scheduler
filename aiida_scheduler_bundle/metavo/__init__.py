@@ -27,4 +27,3 @@ https://github.com/aiidateam/aiida-core/issues/2978
 https://github.com/aiidateam/aiida-core/issues/2977
 
 """
-from .datastructures import *
