@@ -20,10 +20,6 @@ ignore-patterns=
 # Use multiple processes to speed up Pylint.
 jobs=1
 
-# List of plugins (as comma separated values of python modules names) to load,
-# usually to register additional checkers.
-load-plugins=pylint_django
-
 # Pickle collected data for later comparisons.
 persistent=yes
 
@@ -50,7 +46,7 @@ confidence=
 # --enable=similarities". If you want to run only the classes checker, but have
 # no Warning level messages displayed, use"--disable=all --enable=classes
 # --disable=W"
-disable=bad-continuation,locally-disabled,useless-suppression,django-not-available,bad-option-value,logging-format-interpolation,no-else-raise,import-outside-toplevel
+disable=bad-continuation,locally-disabled,useless-suppression,django-not-available,bad-option-value
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -99,10 +95,10 @@ argument-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
 argument-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
 
 # Naming hint for attribute names
-attr-name-hint=(([a-z][a-z0-9_]{2,32})|(_[a-z0-9_]*))$
+attr-name-hint=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
 
 # Regular expression matching correct attribute names
-attr-rgx=(([a-z][a-z0-9_]{2,32})|(_[a-z0-9_]*))$
+attr-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
 
 # Bad variable names which should always be refused, separated by a comma
 bad-names=foo,bar,baz,toto,tutu,tata
@@ -136,7 +132,7 @@ function-name-hint=(([a-z][a-z0-9_]{2,40})|(_[a-z0-9_]*))$
 function-rgx=(([a-z][a-z0-9_]{2,30})|(_[a-z0-9_]*))$
 
 # Good variable names which should always be accepted, separated by a comma
-good-names=i,j,k,ex,Run,_,pk,TemplatereplacerCalculation,ArithmeticAddCalculation
+good-names=i,j,k,ex,Run,_,pk
 
 # Include a hint for the correct naming format with invalid-name
 include-naming-hint=no
@@ -279,7 +275,7 @@ init-import=no
 
 # List of qualified module names which can have objects that can redefine
 # builtins.
-redefining-builtins-modules=
+redefining-builtins-modules=six.moves,future.builtins
 
 
 [MISCELLANEOUS]

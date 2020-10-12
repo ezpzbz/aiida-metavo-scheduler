@@ -52,8 +52,3 @@ You may kindly open and PR and add your collection to the package so it can cont
 
 # Contact
 pzarabadip@gmail.com
-
-
-
-
-

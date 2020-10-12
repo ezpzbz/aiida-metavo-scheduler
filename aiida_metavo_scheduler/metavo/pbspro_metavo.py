@@ -53,7 +53,7 @@ class PbsproSchedulerMetaVO(PbsBaseClassMetaVO):
     # _map_status = _map_status_pbs_common
 
     def _get_resource_lines(
-        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds, scratch_local_kb, scratch_ssd_kb
+        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds
     ):
         """
         Return the lines for machines, memory and wallclock relative
@@ -99,11 +99,6 @@ class PbsproSchedulerMetaVO(PbsBaseClassMetaVO):
                     ''.format((max_memory_kb))
                 )
             select_string += ':mem={}kb'.format(virtual_memory_kb)
-        
-        if scratch_local_kb:
-            select_string += ':scratch_ssd={}kb'.format(scratch_local_kb)
-        if scratch_ssd_kb:
-            select_string += ':scratch_ssd={}kb'.format(scratch_ssd_kb)
 
         return_lines.append('#PBS -l {}'.format(select_string))
         return return_lines

@@ -10,10 +10,8 @@
 """
 Base classes for PBSPro and PBS/Torque plugins.
 """
-# from __future__ import print_function
-# from __future__ import division
-# from __future__ import absolute_import
 import abc
+import os
 import logging
 
 import six
@@ -135,7 +133,7 @@ class PbsBaseClassMetaVO(Scheduler):
     _map_status = _MAP_STATUS_PBS_COMMON
 
     def _get_resource_lines(
-        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds, scratch_local_kb, scratch_ssd_kb
+        self, num_machines, num_mpiprocs_per_machine, num_cores_per_machine, max_memory_kb, max_wallclock_seconds
     ):
         """
         Return a set a list of lines (possibly empty) with the header
@@ -161,14 +159,12 @@ class PbsBaseClassMetaVO(Scheduler):
         """
         from aiida.common.exceptions import FeatureNotAvailable
 
-        # command = ['qstat', '-f', '-w', '@arien-pro.ics.muni.cz @wagap-pro.cerit-sc.cz @pbs.elixir-czech.cz ']
         command = ['qstat', '-f', '-w', '@meta-pbs.metacentrum.cz @cerit-pbs.cerit-sc.cz @elixir-pbs.elixir-czech.cz ']
-        # command = ['qstat', '-f', '-w']
 
         if jobs and user:
             raise FeatureNotAvailable('Cannot query by user and job(s) in PBS')
 
-        user = 'pezhman'
+        user = os.environ['USER']
         if user:
             command.append('-u{}'.format(user))
 
@@ -308,9 +304,7 @@ class PbsBaseClassMetaVO(Scheduler):
             num_mpiprocs_per_machine=job_tmpl.job_resource.num_mpiprocs_per_machine,
             num_cores_per_machine=job_tmpl.job_resource.num_cores_per_machine,
             max_memory_kb=job_tmpl.max_memory_kb,
-            max_wallclock_seconds=job_tmpl.max_wallclock_seconds,
-            scratch_local_kb=job_tmpl.job_resource.scratch_local_kb, 
-            scratch_ssd_kb=job_tmpl.job_resource.scratch_ssd_kb
+            max_wallclock_seconds=job_tmpl.max_wallclock_seconds
         )
 
         lines += resource_lines
@@ -784,6 +778,6 @@ class PbsBaseClassMetaVO(Scheduler):
             _LOGGER.warning('in _parse_kill_output there was some text in stderr: {}'.format(stderr))
 
         if stdout.strip():
-            _LOGGER.warning('in _parse_kill_output there was some text in stdout: {}'.format(stdout))
+            _LOGGER.warning(f'in _parse_kill_output there was some text in stdout: {stdout}')
 
         return True

@@ -17,7 +17,7 @@ PBSPro: MetaVO has three differnt servers associated with different parts of clu
 and therefore, it was needed to declare them in qstat command line to get
 the correct job list parsing.
 The PBSPro version (pbs_version = 19.0.0) configuration requires -w argument for proper parsin.
-The other required change was providing the username so it would not hang in parsing 
+The other required change was providing the username so it would not hang in parsing
 the job list.
 
 SSH: In this case, the change is minor and related to removal of -l argument from bash commnad.
