@@ -1,7 +1,7 @@
 {
   "name": "aiida-metavo-scheduler",
   "version": "1.0.0",
-  "url": "https://github.com/pzarabadip/aiida-metavo-schedulers",
+  "url": "https://github.com/pzarabadip/aiida-metavo-scheduler",
   "license": "MIT License",
   "author": "Pezhman Zarabadi-Poor",
   "author_email": "pzarabadip@gmail.com",
