@@ -33,13 +33,13 @@
   "reentry_register": true,
   "entry_points": {
     "aiida.cmdline.computer.configure": [
-      "aiida_metavo_scheduler = aiida_metavo_scheduler.metavo.ssh_metavo:CONFIGURE_SSH_CMD"
+      "sshmetavo = aiida_metavo_scheduler.metavo.ssh_metavo:CONFIGURE_SSH_CMD"
     ],
     "aiida.schedulers": [
-      "aiida_metavo_scheduler = aiida_metavo_scheduler.metavo.pbspro_metavo:PbsproSchedulerMetaVO"
+      "pbsprometavo = aiida_metavo_scheduler.metavo.pbspro_metavo:PbsproSchedulerMetaVO"
     ],
     "aiida.transports": [
-      "aiida_metavo_scheduler = aiida_metavo_scheduler.metavo.ssh_metavo:SshTransport"
+      "sshmetavo = aiida_metavo_scheduler.metavo.ssh_metavo:SshTransport"
     ]
   }
 }
