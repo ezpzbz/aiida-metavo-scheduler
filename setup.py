@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Setup for aiida-nims-schedulers python package."""
+"""Setup for aiida-metavo-schedulers python package."""
 
 import json
 from setuptools import setup, find_packages
