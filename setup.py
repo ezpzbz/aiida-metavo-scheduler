@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Setup for aiida-metavo-schedulers python package."""
-
+# please see https://github.com/pzarabadip/aiida-metavo-scheduler/issues/2#issue-804035777
+# for reason of limiting the aiida-core version to <1.6
 import json
 from setuptools import setup, find_packages
 
